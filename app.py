@@ -1,5 +1,5 @@
 from google import genai
-import resources
+from dotenv import load_dotenv
 
 import moviepy.editor as mp
 import speech_recognition as sr
@@ -8,6 +8,8 @@ import os
 
 import tkinter as tk
 from tkinter import filedialog
+
+load_dotenv()
 
 def video_extract(vid):
 
@@ -30,7 +32,8 @@ def video_extract(vid):
 
 
 def summarize(transcript):
-    client = genai.Client(api_key=resources.API_KEY)
+    API_KEY = os.getenv('API_KEY')
+    client = genai.Client(api_key=API_KEY)
     response = client.models.generate_content(
         model="gemini-2.0-flash", contents=[transcript, "\n\n", "Summarize the given transcript"]
     )
